@@ -79,13 +79,13 @@ class MainActivity : AppCompatActivity() {
             if (photosIntent != null) {
                 try {
                     startActivity(photosIntent)
-                    Toast.makeText(this, "Google Fotos aberto. Procure o ícone do Google Lens lá!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Google Fotos aberto!", Toast.LENGTH_LONG).show()
                     return
                 } catch (e: ActivityNotFoundException) {
                 }
             }
 
-            Toast.makeText(this, "Google Lens não encontrado. Redirecionando para a Play Store para Google Fotos.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Google Lens não encontrado", Toast.LENGTH_LONG).show()
             irParaPlayStore(googlePhotosPackage)
         }
     }
