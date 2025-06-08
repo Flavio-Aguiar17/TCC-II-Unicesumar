@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_screen"
+    android:background="#FFFFFFFF"
+    tools:context=".BreakEvenActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVoltarPE"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Voltar"
+        android:backgroundTint="#1976D2"
+        android:textColor="#FFFFFFFF"
+        app:strokeColor="#1976D2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/margin_large" />
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cálculo do Ponto de Equilíbrio"
+        android:textSize="@dimen/text_size_title"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        app:layout_constraintTop_toBottomOf="@id/btnVoltarPE"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_medium"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilDespesasFixasTotais"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Despesas Fixas Totais (R$)"
+        android:textColorHint="#1976D2"
+        app:boxStrokeColor="#1976D2"
+        app:hintTextColor="#1976D2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtDespesasFixasTotais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textColor="#1976D2" /> </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilDespesaVariavelPorUnidade"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        app:layout_constraintTop_toBottomOf="@id/tilDespesasFixasTotais"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Custos + Despesa Variável por Unidade (R$)"
+        android:textColorHint="#1976D2"
+        app:boxStrokeColor="#1976D2"
+        app:hintTextColor="#1976D2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtDespesaVariavelPorUnidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textColor="#1976D2" /> </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPrecoVendaPorUnidade"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        app:layout_constraintTop_toBottomOf="@id/tilDespesaVariavelPorUnidade"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Preço de Venda por Unidade (R$)"
+        android:textColorHint="#1976D2"
+        app:boxStrokeColor="#1976D2"
+        app:hintTextColor="#1976D2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtPrecoVendaPorUnidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textColor="#1976D2" /> </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnCalcularPontoEquilibrio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Calcular Ponto de Equilíbrio"
+        android:layout_marginTop="@dimen/margin_large"
+        android:backgroundTint="#1976D2"
+        android:textColor="@android:color/white"
+        app:cornerRadius="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tilPrecoVendaPorUnidade"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvResultadoPontoEquilibrio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:textSize="@dimen/text_size_result"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/btnCalcularPontoEquilibrio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Ponto de Equilíbrio: XX unidades" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="@dimen/image_break_even_width"
+        android:layout_height="@dimen/image_break_even_height"
+        android:layout_marginEnd="@dimen/margin_extra_large"
+        android:layout_marginBottom="@dimen/margin_extra_large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/pontoequilibrio" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

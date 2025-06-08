@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="@dimen/padding_screen">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnVoltarDespesa"
+            android:text="Voltar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="start"
+            android:layout_marginBottom="@dimen/margin_medium"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="#1976D2" />
+
+        <TextView
+            android:text="Controle de Gastos"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:paddingHorizontal="@dimen/margin_small"
+            android:text="**CUSTO:** Gastos para produzir o que você vende (ex:bolo de chocolate). \n**DESPESA:** Gastos para sua criação funcionar (ex: luz, internet)."
+            android:textColor="#1976D2"
+            android:textSize="@dimen/text_size_body" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:hint="Descrição da Despesa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#1976D2"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtDescricaoDespesa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="#1976D2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:hint="Valor da Despesa (R$)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textColorHint="#1976D2"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtValorDespesa"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#1976D2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:hint="Tipo de Despesa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textColorHint="#1976D2"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            <AutoCompleteTextView
+                android:id="@+id/spinnerTipoDespesa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="#1976D2"
+                android:background="@android:color/transparent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:hint="Categoria da Despesa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textColorHint="#1976D2"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            <AutoCompleteTextView
+                android:id="@+id/spinnerCategoriaDespesa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="#1976D2"
+                android:background="@android:color/transparent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnAddDespesa"
+            android:text="Adicionar Despesa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="@dimen/margin_large"
+            android:paddingVertical="@dimen/padding_button_vertical"
+            app:cornerRadius="8dp"/>
+
+        <Button
+            android:id="@+id/btnCalcularPontoEquilibrio"
+            android:text="Calcular Ponto de Equilíbrio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:paddingVertical="@dimen/padding_button_vertical"
+            app:cornerRadius="8dp"/>
+    </LinearLayout>
+</ScrollView>

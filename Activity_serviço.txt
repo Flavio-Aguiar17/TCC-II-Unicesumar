@@ -1,0 +1,107 @@
+package com.apk.qprecoapp.aguiarapps_qpreco
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
+
+class ServiceActivity : AppCompatActivity() {
+
+    private val servicos = mutableListOf<Servico>()
+    private lateinit var adaptadorServico: ServiceAdapter
+
+    private lateinit var campoNomeServico: TextInputEditText
+    private lateinit var campoCustoMaoDeObraServico: TextInputEditText
+    private lateinit var campoTaxaImpostoServico: TextInputEditText
+    private lateinit var campoMargemLucroServico: TextInputEditText
+    private lateinit var textoPrecoVendaServico: TextView
+    private lateinit var textoPrecoCustoServico: TextView
+
+    private var precoCustoCalculado: Double = 0.0
+    private var precoVendaCalculado: Double = 0.0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_service)
+
+        initViews()
+        setupRecyclerView()
+        setupListeners()
+    }
+
+    private fun initViews() {
+        campoNomeServico = findViewById(R.id.txtNomeServico)
+        campoCustoMaoDeObraServico = findViewById(R.id.txtCustoMaoDeObraServico)
+        campoTaxaImpostoServico = findViewById(R.id.txtTaxaImpostoServico)
+        campoMargemLucroServico = findViewById(R.id.txtMargemLucroServico)
+        textoPrecoVendaServico = findViewById(R.id.txtPrecoVendaServico)
+        textoPrecoCustoServico = findViewById(R.id.txtPrecoCustoServico)
+    }
+
+    private fun setupRecyclerView() {
+        adaptadorServico = ServiceAdapter(servicos)
+        findViewById<RecyclerView>(R.id.recyclerServicos).apply {
+            layoutManager = LinearLayoutManager(this@ServiceActivity)
+            adapter = adaptadorServico
+        }
+    }
+
+    private fun setupListeners() {
+        findViewById<Button>(R.id.btnCalcularPrecoServico).setOnClickListener { calcularPrecoVenda() }
+        findViewById<Button>(R.id.btnAddServico).setOnClickListener { adicionarServico() }
+        findViewById<Button>(R.id.btnVoltarServico).setOnClickListener { finish() }
+    }
+
+    private fun calcularPrecoVenda() {
+        val custoMaoDeObra = campoCustoMaoDeObraServico.text.toString().toDoubleOrNull() ?: 0.0
+        val taxaImposto = campoTaxaImpostoServico.text.toString().toDoubleOrNull() ?: 0.0
+        val margemLucro = campoMargemLucroServico.text.toString().toDoubleOrNull() ?: 0.0
+
+        val custoBase = custoMaoDeObra
+        val valorImposto = custoBase * (taxaImposto / 100)
+        precoCustoCalculado = custoBase + valorImposto
+
+        val valorLucro = precoCustoCalculado * (margemLucro / 100)
+        precoVendaCalculado = precoCustoCalculado + valorLucro
+
+        textoPrecoCustoServico.text = "Preço de Custo: R$ %.2f".format(precoCustoCalculado)
+        textoPrecoVendaServico.text = "Preço de Venda Sugerido: R$ %.2f".format(precoVendaCalculado)
+    }
+
+    private fun adicionarServico() {
+        val nome = campoNomeServico.text.toString().trim()
+
+        if (nome.isBlank() || precoVendaCalculado == 0.0) {
+            Toast.makeText(
+                this,
+                "Preencha corretamente os campos de serviço e calcule o preço antes de adicionar",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        servicos.add(Servico(
+            nome,
+            campoCustoMaoDeObraServico.text.toString().toDoubleOrNull() ?: 0.0,
+            campoTaxaImpostoServico.text.toString().toDoubleOrNull() ?: 0.0,
+            campoMargemLucroServico.text.toString().toDoubleOrNull() ?: 0.0,
+            precoCustoCalculado,
+            precoVendaCalculado
+        ))
+        adaptadorServico.notifyItemInserted(servicos.lastIndex)
+
+        campoNomeServico.text?.clear()
+        campoCustoMaoDeObraServico.text?.clear()
+        campoTaxaImpostoServico.text?.clear()
+        campoMargemLucroServico.text?.clear()
+        textoPrecoVendaServico.text = "Preço de Venda Sugerido: R$ 0,00"
+        textoPrecoCustoServico.text = "Preço de Custo: R$ 0,00"
+
+        precoCustoCalculado = 0.0
+        precoVendaCalculado = 0.0
+    }
+}

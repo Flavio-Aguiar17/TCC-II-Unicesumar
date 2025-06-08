@@ -1,0 +1,113 @@
+package com.apk.qprecoapp.aguiarapps_qpreco
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
+
+class ProductActivity : AppCompatActivity() {
+
+    private val produtos = mutableListOf<Produto>()
+    private lateinit var adaptadorProduto: ProductAdapter
+
+    private lateinit var campoNomeProduto: TextInputEditText
+    private lateinit var campoCustoMateriaPrima: TextInputEditText
+    private lateinit var campoCustoMaoDeObra: TextInputEditText
+    private lateinit var campoTaxaImposto: TextInputEditText
+    private lateinit var campoMargemLucro: TextInputEditText
+    private lateinit var textoPrecoVendaSugerido: TextView
+    private lateinit var textoPrecoCustoTotal: TextView
+
+    private var precoCustoCalculado: Double = 0.0
+    private var precoVendaCalculado: Double = 0.0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_products)
+
+        initViews()
+        setupRecyclerView()
+        setupListeners()
+    }
+
+    private fun initViews() {
+        campoNomeProduto = findViewById(R.id.txtNomeProduto)
+        campoCustoMateriaPrima = findViewById(R.id.txtCustoMateriaPrima)
+        campoCustoMaoDeObra = findViewById(R.id.txtCustoMaoDeObra)
+        campoTaxaImposto = findViewById(R.id.txtTaxaImposto)
+        campoMargemLucro = findViewById(R.id.txtMargemLucro)
+        textoPrecoVendaSugerido = findViewById(R.id.txtPrecoVendaSugerido)
+        textoPrecoCustoTotal = findViewById(R.id.txtPrecoCusto)
+    }
+
+    private fun setupRecyclerView() {
+        adaptadorProduto = ProductAdapter(produtos)
+        findViewById<RecyclerView>(R.id.recyclerProdutos).apply {
+            layoutManager = LinearLayoutManager(this@ProductActivity)
+            adapter = adaptadorProduto
+        }
+    }
+
+    private fun setupListeners() {
+        findViewById<Button>(R.id.btnCalcularPreco).setOnClickListener { calcularPrecoVenda() }
+        findViewById<Button>(R.id.btnAddProduto).setOnClickListener { adicionarProduto() }
+        findViewById<Button>(R.id.btnVoltarProduto).setOnClickListener { finish() }
+    }
+
+    private fun calcularPrecoVenda() {
+        val custoMateriaPrima = campoCustoMateriaPrima.text.toString().toDoubleOrNull() ?: 0.0
+        val custoMaoDeObra = campoCustoMaoDeObra.text.toString().toDoubleOrNull() ?: 0.0
+        val taxaImposto = campoTaxaImposto.text.toString().toDoubleOrNull() ?: 0.0
+        val margemLucro = campoMargemLucro.text.toString().toDoubleOrNull() ?: 0.0
+
+        val custoBase = custoMateriaPrima + custoMaoDeObra
+        val valorImposto = custoBase * (taxaImposto / 100)
+        precoCustoCalculado = custoBase + valorImposto
+
+        val valorLucro = precoCustoCalculado * (margemLucro / 100)
+        precoVendaCalculado = precoCustoCalculado + valorLucro
+
+        textoPrecoCustoTotal.text = "Preço de Custo: R$ %.2f".format(precoCustoCalculado)
+        textoPrecoVendaSugerido.text = "Preço de Venda Sugerido: R$ %.2f".format(precoVendaCalculado)
+    }
+
+    private fun adicionarProduto() {
+        val nome = campoNomeProduto.text.toString().trim()
+
+        if (nome.isBlank() || precoVendaCalculado == 0.0) {
+            Toast.makeText(
+                this,
+                "Preencha corretamente os campos de produto e calcule o preço antes de adicionar",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        produtos.add(Produto(
+            nome,
+            campoCustoMateriaPrima.text.toString().toDoubleOrNull() ?: 0.0,
+            campoCustoMaoDeObra.text.toString().toDoubleOrNull() ?: 0.0,
+            campoTaxaImposto.text.toString().toDoubleOrNull() ?: 0.0,
+            campoMargemLucro.text.toString().toDoubleOrNull() ?: 0.0,
+            precoCustoCalculado,
+            precoVendaCalculado
+        ))
+        adaptadorProduto.notifyItemInserted(produtos.lastIndex)
+
+        // Limpa os campos
+        campoNomeProduto.text?.clear()
+        campoCustoMateriaPrima.text?.clear()
+        campoCustoMaoDeObra.text?.clear()
+        campoTaxaImposto.text?.clear()
+        campoMargemLucro.text?.clear()
+        textoPrecoVendaSugerido.text = "Preço de Venda Sugerido: R$ 0,00"
+        textoPrecoCustoTotal.text = "Preço de Custo: R$ 0,00"
+
+        precoCustoCalculado = 0.0
+        precoVendaCalculado = 0.0
+    }
+}

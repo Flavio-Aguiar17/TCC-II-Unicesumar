@@ -1,0 +1,66 @@
+package com.apk.qprecoapp.aguiarapps_qpreco
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputEditText
+
+class BreakEvenActivity : AppCompatActivity() {
+
+    private lateinit var campoDespesasFixasTotais: TextInputEditText
+    private lateinit var campoDespesaVariavelPorUnidade: TextInputEditText
+    private lateinit var campoPrecoVendaPorUnidade: TextInputEditText
+    private lateinit var textoResultadoPontoEquilibrio: TextView
+
+    private var despesasFixasRecebidas: Double = 0.0
+    private var despesasVariaveisRecebidas: Double = 0.0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_break_even)
+
+        initViews()
+        setupListeners()
+        receberDadosDespesas()
+    }
+
+    private fun initViews() {
+        campoDespesasFixasTotais = findViewById(R.id.txtDespesasFixasTotais)
+        campoDespesaVariavelPorUnidade = findViewById(R.id.txtDespesaVariavelPorUnidade)
+        campoPrecoVendaPorUnidade = findViewById(R.id.txtPrecoVendaPorUnidade)
+        textoResultadoPontoEquilibrio = findViewById(R.id.tvResultadoPontoEquilibrio)
+    }
+
+    private fun setupListeners() {
+        findViewById<Button>(R.id.btnCalcularPontoEquilibrio).setOnClickListener { calcularPontoEquilibrio() }
+        findViewById<Button>(R.id.btnVoltarPE).setOnClickListener { finish() }
+    }
+
+    private fun receberDadosDespesas() {
+        despesasFixasRecebidas = intent.getDoubleExtra("EXTRA_DESPESAS_FIXAS_TOTAIS", 0.0)
+        despesasVariaveisRecebidas = intent.getDoubleExtra("EXTRA_DESPESAS_VARIAVEIS_TOTAIS", 0.0)
+
+        campoDespesasFixasTotais.setText("%.2f".format(despesasFixasRecebidas))
+
+    }
+
+    private fun calcularPontoEquilibrio() {
+        val despesasFixas = campoDespesasFixasTotais.text.toString().toDoubleOrNull()
+        val despesaVariavelPorUnidade = campoDespesaVariavelPorUnidade.text.toString().toDoubleOrNull()
+        val precoVendaPorUnidade = campoPrecoVendaPorUnidade.text.toString().toDoubleOrNull()
+
+        if (despesasFixas == null || despesaVariavelPorUnidade == null || precoVendaPorUnidade == null || precoVendaPorUnidade <= despesaVariavelPorUnidade) {
+            Toast.makeText(this, "Preencha todos os campos e certifique-se que o Preço de Venda seja maior que a Despesa Variável por Unidade.", Toast.LENGTH_LONG).show()
+            textoResultadoPontoEquilibrio.text = "Ponto de Equilíbrio: Erro"
+            return
+        }
+
+        // Fórmula do Ponto de Equilíbrio Contábil
+        val margemContribuicaoPorUnidade = precoVendaPorUnidade - despesaVariavelPorUnidade
+        val pontoDeEquilibrioUnidades = despesasFixas / margemContribuicaoPorUnidade
+
+        textoResultadoPontoEquilibrio.text = "Ponto de Equilíbrio: %.2f unidades".format(pontoDeEquilibrioUnidades)
+    }
+}

@@ -1,0 +1,100 @@
+package com.apk.qprecoapp.aguiarapps_qpreco
+
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val btnCalcularPrecoProduto = findViewById<Button>(R.id.btnCalcularPrecoProduto)
+        val btnCalcularPrecoServico = findViewById<Button>(R.id.btnCalcularPrecoServico)
+        val btnGerenciarDespesas = findViewById<Button>(R.id.btnGerenciarDespesas)
+        val btnCalcularPontoEquilibrio = findViewById<Button>(R.id.btnCalcularPontoEquilibrio)
+        val btnAcessarCalculoExato = findViewById<MaterialButton>(R.id.btnAcessarCalculoExato)
+        val btnAcessarSebrae = findViewById<MaterialButton>(R.id.btnAcessarSebrae)
+        val btnAcessarGoogleLens = findViewById<MaterialButton>(R.id.btnAcessarGoogleLens)
+
+        btnCalcularPrecoProduto.setOnClickListener {
+            val intent = Intent(this, ProductActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnCalcularPrecoServico.setOnClickListener {
+            val intent = Intent(this, ServiceActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnGerenciarDespesas.setOnClickListener {
+            val intent = Intent(this, ExpenseActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnCalcularPontoEquilibrio.setOnClickListener {
+            val intent = Intent(this, BreakEvenActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnAcessarCalculoExato.setOnClickListener {
+            val intent = Intent(this, WebActivity::class.java)
+            intent.putExtra("URL_TO_LOAD", "https://calculoexato.com.br/")
+            startActivity(intent)
+        }
+
+        btnAcessarSebrae.setOnClickListener {
+            val intent = Intent(this, WebActivity::class.java)
+            intent.putExtra("URL_TO_LOAD", "https://sebrae.com.br/sites/PortalSebrae/")
+            startActivity(intent)
+        }
+
+        btnAcessarGoogleLens.setOnClickListener {
+            abrirGoogleLensOuPlayStore()
+        }
+    }
+
+    private fun abrirGoogleLensOuPlayStore() {
+        val googlePhotosPackage = "com.google.android.apps.photos"
+        val googleLensPackage = "com.google.android.apps.lens"
+
+        // Abrir o Google Lens
+        val intentLens = Intent(Intent.ACTION_VIEW)
+        intentLens.setPackage(googleLensPackage)
+        intentLens.data = Uri.parse("https://lens.google.com")
+
+        try {
+            startActivity(intentLens)
+            Toast.makeText(this, "Google Lens aberto!", Toast.LENGTH_SHORT).show()
+            return 
+        } catch (e: ActivityNotFoundException) {
+
+            val photosIntent = packageManager.getLaunchIntentForPackage(googlePhotosPackage)
+            if (photosIntent != null) {
+                try {
+                    startActivity(photosIntent)
+                    Toast.makeText(this, "Google Fotos aberto. Procure o ícone do Google Lens lá!", Toast.LENGTH_LONG).show()
+                    return
+                } catch (e: ActivityNotFoundException) {
+                }
+            }
+
+            Toast.makeText(this, "Google Lens não encontrado. Redirecionando para a Play Store para Google Fotos.", Toast.LENGTH_LONG).show()
+            irParaPlayStore(googlePhotosPackage)
+        }
+    }
+
+    private fun irParaPlayStore(packageName: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+        } catch (e: ActivityNotFoundException) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
+        }
+    }
+}

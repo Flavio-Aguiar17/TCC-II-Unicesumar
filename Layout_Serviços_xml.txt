@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFFFF"
+    android:padding="@dimen/padding_screen"
+    tools:context=".ServiceActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVoltarServico"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="Voltar"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#1976D2"
+            app:strokeColor="#1976D2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/title_screen_margin_bottom"
+            android:gravity="center"
+            android:text="Precificação de Serviço"
+            android:textColor="#1976D2"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:paddingHorizontal="@dimen/margin_small"
+            android:text="**IMPOSTOS % VARIA DE:\n** Simples Nacional:4% a 33%.\n**Lucro Presumido:13,33% a 16,33%.\n**Lucro Real:20% a 35%.\n**MEI:Inclua o valor DAS-MEI mensal na Despesa Fixa."
+            android:textColor="#1976D2"
+            android:textSize="@dimen/text_size_body" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nome do Serviço"
+            android:textColorHint="#1976D2"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtNomeServico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="#1976D2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_field_margin_top"
+            android:hint="Custo Mão de Obra (R$)"
+            android:textColorHint="#1976D2"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtCustoMaoDeObraServico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="#1976D2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_field_margin_top"
+            android:hint="Impostos (%)"
+            android:textColorHint="#1976D2"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtTaxaImpostoServico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="#1976D2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_field_margin_top"
+            android:hint="Margem de Lucro Desejada (%)"
+            android:textColorHint="#1976D2"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtMargemLucroServico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="#1976D2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCalcularPrecoServico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/button_calc_margin_top"
+            android:paddingVertical="@dimen/padding_button_vertical"
+            android:text="Calcular Preço de Venda"
+            android:backgroundTint="#1976D2"
+            android:textColor="@android:color/white"
+            app:cornerRadius="8dp" />
+
+        <TextView
+            android:id="@+id/txtPrecoCustoServico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/result_text_margin_top"
+            android:gravity="center"
+            android:text="Preço de Custo: R$ 0,00"
+            android:textColor="#1976D2"
+            android:textSize="@dimen/text_size_result"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtPrecoVendaServico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/result_text_margin_bottom"
+            android:gravity="center"
+            android:text="Preço de Venda Sugerido: R$ 0,00"
+            android:textColor="#1976D2"
+            android:textSize="@dimen/text_size_result"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddServico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/button_calc_margin_top"
+            android:paddingVertical="@dimen/padding_button_vertical"
+            android:text="Adicionar Serviço"
+            android:backgroundTint="#1976D2"
+            android:textColor="@android:color/white"
+            app:cornerRadius="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerServicos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/recycler_margin_top"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+</ScrollView>
